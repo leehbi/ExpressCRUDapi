@@ -14,36 +14,26 @@ const schema = Joi.object({
 const router = express.Router();
 
 // Read all
-router.get('/', async (req, res, next) => {
-  try {
-    const items = await faqs.find({});
-    res.json(items);
-  } catch (error) {}
+router.get('/', async (req, res) => {
+  const items = await faqs.find({});
+  res.json(items);
 });
 
 // Read One
 router.get('/:id', async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const item = await faqs.findOne({
-      _id: id,
-    });
-    if (!item) return next();
-    return res.json(item);
-  } catch (error) {
-    next(error);
-  }
+  const { id } = req.params;
+  const item = await faqs.findOne({
+    _id: id,
+  });
+  if (!item) return next();
+  return res.json(item);
 });
 
 // Create One
-router.post('/', async (req, res, next) => {
-  try {
-    const value = await schema.validateAsync(req.body);
-    const inserted = await faqs.insert(value);
-    res.json(inserted);
-  } catch (error) {
-    next(error);
-  }
+router.post('/', async (req, res) => {
+  const value = await schema.validateAsync(req.body);
+  const inserted = await faqs.insert(value);
+  res.json(inserted);
 });
 
 // Update One
@@ -51,7 +41,7 @@ router.put('/:id', async (req, res, next) => {
   try {
     const { id } = req.params;
     const value = await schema.validateAsync(req.body);
-    const item = await faqs.findOne({
+    await faqs.findOne({
       _id: id,
     });
 
