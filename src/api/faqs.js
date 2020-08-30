@@ -1,6 +1,6 @@
 const express = require('express');
 const monk = require('monk');
-const Joi = require('@hapi/joi');
+const Joi = require('joi');
 
 const db = monk(process.env.MONGO_URI);
 const faqs = db.get('faqs');
